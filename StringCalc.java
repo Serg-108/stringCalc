@@ -2,40 +2,32 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class StringCalc {
-    static Scanner scanner = new Scanner(System.in);
-    static int number;
-    static String result;
 
     public static void main(String[] args) {
-        System.out.println("Input:");
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Input:");
         String userInput = scanner.nextLine();
         char operation = getOperation(userInput);
-
-
         String[] blocks = userInput.split("[+-/*\"]");
 
-
         if (blocks.length == 5) {
-            String st00 = blocks[0];
-            String st01 = blocks[1];
-            String st02 = blocks[2];
-            String st03 = blocks[3];
-            String st04 = blocks[4];
+            String str1 = blocks[1];
+            String str4 = blocks[4];
 
-            result = calculated(st01, st04, operation);
-            System.out.println("Output:\n" + result);
+            String result = calculated(str1, str4, operation);
+            System.out.println("Output:\n" + concat(result));
 
         } else {
-            String st01 = blocks[1];
-            String st03 = blocks[3];
-            number = Integer.parseInt(st03);
-            result = calculated(st01, number, operation);
-            System.out.println("Output:\n" + result);
+            String str1 = blocks[1];
+            String str3 = blocks[3];
+            int number = Integer.parseInt(str3);
+            String result = calculated(str1, number, operation);
+            System.out.println("Output:\n" + concat(result));
         }
     }
 
-    static char getOperation(String userInput) {
+    private static char getOperation(String userInput) {
         char operation = '+';
 
         for (int i = 0; i < userInput.length(); i++) {
@@ -60,9 +52,8 @@ public class StringCalc {
         return operation;
     }
 
-
-    public static String calculated(String str1, String str2, char op) {
-
+    private static String calculated(String str1, String str2, char op) {
+        String result = "";
         switch (op) {
             case '+':
                 result = str1 + str2;
@@ -83,10 +74,12 @@ public class StringCalc {
             default:
                 throw new IllegalArgumentException("Неверный знак операции");
         }
+
         return result;
     }
 
-    public static String calculated(String str, int num, char op) {
+    private static String calculated(String str, int num, char op) {
+        String result = "";
 
         switch (op) {
             case '+':
@@ -120,6 +113,18 @@ public class StringCalc {
             default:
                 throw new IllegalArgumentException("Неверный знак операции");
         }
+
         return result;
+    }
+
+    private static String concat(String str) {
+        int maxLength = 40;
+        if (str.length() > maxLength) {
+            str = str.substring(0, maxLength);
+            str = str + "...";
+            return str;
+        }
+
+        return str;
     }
 }
